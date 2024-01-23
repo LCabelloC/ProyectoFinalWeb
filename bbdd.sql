@@ -31,14 +31,13 @@ CREATE TABLE IF NOT EXISTS `donaciones` (
   KEY `FK_donaciones_proyectos` (`idProyecto`),
   CONSTRAINT `FK_donaciones_proyectos` FOREIGN KEY (`idProyecto`) REFERENCES `proyectos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_donaciones_usuarios` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla crowdfunding.donaciones: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla crowdfunding.donaciones: ~0 rows (aproximadamente)
 REPLACE INTO `donaciones` (`id`, `idUsuario`, `idProyecto`, `donacion`, `fecha`) VALUES
-	(16, 17, 7, 321, 2147483647),
-	(17, 17, 7, 100000, 2147483647),
-	(18, 17, 8, 100, 2147483647),
-	(19, 17, 9, 2147483647, 2147483647);
+	(22, 16, 17, 50000, 2147483647),
+	(23, 16, 18, 750000, 2147483647),
+	(24, 17, 20, 1000000, 2147483647);
 
 -- Volcando estructura para tabla crowdfunding.proyectos
 CREATE TABLE IF NOT EXISTS `proyectos` (
@@ -49,16 +48,14 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `goal` int(11) DEFAULT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Información de los proyectos disponibles';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Información de los proyectos disponibles';
 
--- Volcando datos para la tabla crowdfunding.proyectos: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla crowdfunding.proyectos: ~0 rows (aproximadamente)
 REPLACE INTO `proyectos` (`id`, `titulo`, `descripcion`, `ruta_foto`, `goal`, `fecha_creacion`) VALUES
-	(6, 'dwadwa', 'dwadwa', './../assets/project-images/imagen_1706042583.png', 321321, '2024-01-23 21:43:03'),
-	(7, 'dwadwa', 'dwadwa', './../assets/project-images/imagen_1706042600.png', 321321, '2024-01-23 21:43:20'),
-	(8, 'dwadwa', 'dwadwa', './../assets/project-images/imagen_1706042637.png', 321321, '2024-01-23 21:43:57'),
-	(9, 'dwadwada', 'dwadwa', './../assets/project-images/imagen_1706042671.png', 321321, '2024-01-23 21:44:31'),
-	(10, 'dwadwa', 'dwadwadwa', './../assets/project-images/imagen_1706042744.png', 321321, '2024-01-23 21:45:44'),
-	(11, 'dwadwa', 'dwaodwao', './../assets/project-images/imagen_1706043686.png', 321321, '2024-01-23 22:01:26');
+	(17, 'Médicos Sin Fronteras', 'MSF proporciona asistencia médica de emergencia a personas afectadas por conflictos armados', './../assets/project-images/imagen_1706050152.jpg', 100000, '2024-01-23 23:49:12'),
+	(18, 'Bill y Melinda Gates', 'Save the Children trabaja para mejorar las vidas de niños en todo el mundo,', './../assets/project-images/imagen_1706050189.jpg', 2500000, '2024-01-23 23:49:49'),
+	(19, 'World Wildlife Fund', 'WWF se dedica a la conservación de la biodiversidad y la protección del medio ambiente,', './../assets/project-images/imagen_1706050225.png', 100000, '2024-01-23 23:50:25'),
+	(20, 'Amnistía Internacional', 'Amnistía Internacional trabaja para proteger los derechos humanos en todo el mundo,', './../assets/project-images/imagen_1706050280.jpg', 300000, '2024-01-23 23:51:20');
 
 -- Volcando estructura para tabla crowdfunding.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (

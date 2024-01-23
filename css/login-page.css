@@ -120,3 +120,28 @@ body {
 .login-form a:hover {
     text-decoration: underline;
 }
+
+@media only screen and (max-width: 766px) {
+
+    .login-form {
+        width: 100%;
+    }
+
+    .top-bar {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        height: 10vh;
+    }
+
+    .top-bar img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .top-bar a {
+        font-size: 1em;
+    }
+
+
+
+}

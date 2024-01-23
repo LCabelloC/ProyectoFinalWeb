@@ -35,16 +35,31 @@ session_start();
                 emocionante y sé parte del cambio que queremos lograr. ¡Gracias por ser parte de este sueño hecho
                 realidad!</p>
         </div>
+        <?php
+            $servername = "localhost"; // Nombre del servidor MySQL
+            $username = "root"; // Nombre de usuario de MySQL
+            $password = ""; // Contraseña de MySQL
+            $database = "crowdfunding"; // Nombre de la base de datos
+
+            $conn = new mysqli($servername, $username, $password, $database);
+            $consulta = "SELECT COUNT(DISTINCT idUsuario) AS numero_usuarios,
+            COUNT(DISTINCT idProyecto) AS numero_proyectos,
+            SUM(donacion) AS suma_donaciones
+             FROM donaciones;
+            ";
+            $result = $conn->query($consulta);
+            $row = $result->fetch_assoc();
+        ?>
         <div class="cards-data">
             <div class="default-card">
                 <p class="card-text">Personas ayudadas
-                    <span>1058</span>
+                    <span><?php echo $row["numero_proyectos"]?></span>
                 </p>
                 <div class="circle-decoration circle-help-card"></div>
             </div>
             <div class="total-money">
                 <p class="card-text">Hemos ayudado con un total de:
-                    <span>10000 $</span>
+                    <span><?php echo number_format($row["suma_donaciones"], 0, '', '.')?>€</span>
                 </p>
                 <div class="total-money-info-text">
                     <img src="../assets/dinero.png" alt="Dolar logo">
@@ -53,7 +68,7 @@ session_start();
             </div>
             <div class="default-card">
                 <p class="card-text">Contribuyentes
-                    <span>1058</span>
+                    <span><?php echo $row["numero_usuarios"]?></span>
                 </p>
                 <div class="circle-decoration group"></div>
             </div>
@@ -115,6 +130,8 @@ session_start();
                     </div>';
                     }
                 }
+
+                $conn->close();
             ?>
             <div class="card-proyecto">
                 <p class="add-project-title">Añade tu proyecto</p>

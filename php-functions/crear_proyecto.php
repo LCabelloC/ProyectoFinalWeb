@@ -2,6 +2,7 @@
 
 session_start();
 
+
 $servername = "localhost"; // Nombre del servidor MySQL
 $username = "root"; // Nombre de usuario de MySQL
 $password = ""; // Contraseña de MySQL
@@ -43,3 +44,4 @@ if ($conn->query($sql) === TRUE) {
 $conn->close();
 
 header("Location: ./../pages/main-page.php");
+
