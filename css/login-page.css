@@ -1,0 +1,122 @@
+body {
+    width: 100%;
+    height: 100vh;
+
+    background-image: url('../assets/tecnologia.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.top-bar {
+    width: 100%;
+    height: 8vh;
+
+
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+
+    background-color: #EAEEF5;
+
+    box-shadow: inset 0 -3px 0 #436183;
+
+    justify-items: center;
+    align-items: center;
+
+}
+
+.top-bar img {
+    grid-area: 1 / 2 / 2 / 3;
+
+    object-fit: 50%;
+}
+
+.top-bar a {
+    grid-area: 1 / 3 / 2 / 4;
+
+    background-color: #31435B;
+    text-decoration: none;
+
+    padding: 10px 20px;
+
+    color: white;
+
+    border-radius: 10px;
+
+    font-size: 1.3em;
+
+    font-weight: bolder;
+
+}
+
+.top-bar a:hover {
+    background-color: #436183;
+}
+
+.login-form {
+    width: 50%;
+    height: 92%;
+
+    background-color: #EAEEF5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.login-form h1 {
+    font-size: 2em;
+    font-weight: bolder;
+}
+
+.login-form input {
+    width: 50%;
+    height: 5vh;
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 0 10px;
+
+    font-size: 1.2em;
+}
+
+.login-form input:focus {
+    outline: none;
+}
+
+.login-form button {
+    width: 50%;
+    height: 5vh;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #31435B;
+    color: white;
+
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+
+.login-form button:hover {
+    background-color: #436183;
+}
+
+.login-form p {
+    font-size: 1.2em;
+
+    width: 70%;
+}
+
+.login-form a {
+    text-decoration: none;
+    color: #31435B;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}

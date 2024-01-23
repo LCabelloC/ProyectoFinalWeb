@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Fira+Code:wght@300;700&family=Open+Sans:ital@0;1&family=Oswald:wght@500&family=Pixelify+Sans&family=Source+Code+Pro&family=Ubuntu:wght@300&display=swap');
+
+body {
+    margin: 0 0 0 0;
+    position: relative;
+}
+
+h1,
+h2,
+h3,
+p {
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
