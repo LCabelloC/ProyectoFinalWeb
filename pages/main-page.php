@@ -1,5 +1,6 @@
-<?
+<?php
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -15,10 +16,17 @@ session_start();
 </head>
 
 <body>
-    <div class="top-bar">
-        <img src="../assets/crowdfundhubLogo.svg" alt="Logo de crowdfundhub">
-        <a href="./login-page.php">Iniciar Sesión</a>
-    </div>
+    <?php if (!isset($_SESSION["user"])){ ?>
+        <div class="top-bar">
+            <img src="../assets/crowdfundhubLogo.svg" alt="Logo de crowdfundhub">
+            <a href="./login-page.php">Iniciar sesion</a>
+        </div>
+    <?php }else{ ?>
+        <div class="top-bar">
+                <img src="../assets/crowdfundhubLogo.svg" alt="Logo de crowdfundhub">
+                <form action="./../php-functions/cerrar_sesion.php"> <input type="submit" value="Cerrar sesion" id="cerrar-sesion-button"></form>
+        </div>
+    <?php } ?>
     <section id="home-section">
         <div class="initial-content">
             <h1>Transforma sueños en logros</h1>
@@ -61,21 +69,53 @@ session_start();
                 cambio significativo juntos!</p>
         </div>
         <div class="proyectos-grid">
-            <div class="card-proyecto" project-id=1>
-                <img src="../assets/motor-bike.webp" alt="Nuevo circuito de motos">
-                <div class="card-proyecto-info">
-                    <h3>Nuevo circuito de motos</h3>
-                    <p>Ayudanos a crear nuestero circuito de motocross y llevarlo a lo más alto</p>
-                    <p>565800/700000</p>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:75%;">
-                            <span class="progress-bar-text">75%</span>
+            <?php
+                $servername = "localhost"; // Nombre del servidor MySQL
+                $username = "root"; // Nombre de usuario de MySQL
+                $password = ""; // Contraseña de MySQL
+                $database = "crowdfunding"; // Nombre de la base de datos
+    
+                $conn = new mysqli($servername, $username, $password, $database);
+                $sql = "SELECT
+                    p.id,
+                    p.titulo,
+                    p.descripcion,
+                    p.ruta_foto,
+                    p.goal,
+                    COALESCE(SUM(d.donacion), 0) as suma_donaciones
+                FROM
+                    proyectos p
+                LEFT JOIN
+                    donaciones d ON p.id = d.idProyecto
+                GROUP BY
+                    p.id, p.titulo, p.descripcion, p.ruta_foto, p.goal;";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Recorrer los resultados y mostrarlos
+                    while ($row = $result->fetch_assoc()) {
+                        $porcentaje = ($row["goal"] > 0) ? ($row["suma_donaciones"] / $row["goal"]) * 100 : 0;
+                        $porcentaje_limitado = min($porcentaje, 100);
+                        $porcentaje_formateado = number_format($porcentaje_limitado, 2) . '%';
+
+                        echo ' <div class="card-proyecto" project-id='.$row["id"].'>
+                        <img src="'.$row["ruta_foto"].'" alt="'.$row["titulo"].'">
+                        <div class="card-proyecto-info">
+                            <h3>'.$row["titulo"].'</h3>
+                            <p>'.$row["descripcion"].'</p>
+                            <p>'.$row["suma_donaciones"].'€/'.$row["goal"].'€</p>
+                            <div class="progress">
+                                <div class="progress-bar" style="width:'.$porcentaje_formateado.';">
+                                    <span class="progress-bar-text">'.$porcentaje_formateado.'</span>
+                                </div>
+                            </div>
+                            <button class="donate-button"
+                            onclick="openButton(' . $row["id"] . ', \'' . $row["titulo"] . '\', \'' . $row["ruta_foto"] . '\')">Donar</button>
                         </div>
-                    </div>
-                    <button class="donate-button"
-                        onclick="openButton(1, 'Nuevo circuito de motos', '../assets/motor-bike.webp')">Donar</button>
-                </div>
-            </div>
+                    </div>';
+                    }
+                }
+            ?>
             <div class="card-proyecto">
                 <p class="add-project-title">Añade tu proyecto</p>
                 <button class="add-project" onclick="createProject()"></button>
@@ -84,38 +124,37 @@ session_start();
 
     </section>
     <div id="blur-color-1">
-        <form id="donation-form">
+        <form id="donation-form" method="post" action="./../php-functions/donar.php">
             <h2>Donación</h2>
             <img id="project-img" src="" alt="">
             <p>Realizando donación a: <br><span id='title-project'></span></p>
-            <input type="hidden" id="project-id" name="project-id">
             <p>A continuación, ingrese el dinero que quiere donar:</p>
-            <input type="number" min="1" class="money-entry">
+            <input type="number" min="1" name="money-entry" class="money-entry" required>
+            <input name="project-id" id="project-id" type="hidden">
 
             <button type="button" onclick="closeButton()" class='close-pop-up'>X</button>
             <button class="donate-button">Confirmar</button>
-
         </form>
     </div>
 
     <div id="blur-color-2">
-        <form id="create-project">
+        <form id="create-project" method="post" action="./../php-functions/crear_proyecto.php" enctype="multipart/form-data">
             <h2>Crear proyecto</h2>
 
             <label for="project-title">Título del proyecto:</label>
-            <input type="text" id="project-title" placeholder="Ingrese el título del proyecto">
+            <input type="text" id="project-title" placeholder="Ingrese el título del proyecto" name="project-title" required> 
 
             <label for="project-description">Descripción del proyecto (máx. 100 caracteres):</label>
-            <textarea id="project-description" maxlength="100"></textarea>
+            <textarea id="project-description" maxlength="100" name="project-description" required></textarea>
 
             <label for="project-image">Imagen del proyecto:</label>
-            <input type="file" id="project-image" accept="image/*" onchange="previewImage()">
+            <input type="file" id="project-image" name="project-image" accept="image/*" onchange="previewImage()" required>
 
             <img id="image-preview" alt="Vista previa de la imagen" style="max-width: 100%; max-height: 200px;">
 
 
             <label for="project-amount">Valor a recaudar:</label>
-            <input type="number" id="project-amount" placeholder="Ingrese el valor a recaudar" min="100000">
+            <input type="number" id="project-amount" name="project-amount" placeholder="Ingrese el valor a recaudar" min="100000" required>
 
             <button type="button" onclick="closeCreateProject()" class='close-pop-up'>X</button>
             <button class="donate-button">Confirmar</button>

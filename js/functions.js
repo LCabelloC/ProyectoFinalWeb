@@ -2,12 +2,13 @@ function openButton(id, project_name, photo_url) {
     document.getElementById('blur-color-1').style.display = 'flex';
     document.getElementsByTagName('body')[0].style.overflow = 'hidden';
 
-    document.getElementById('project-id').value = id;
     document.getElementById('title-project').textContent = project_name;
 
     const img = document.getElementById('project-img');
     img.setAttribute('src', photo_url);
     img.setAttribute('alt', project_name);
+
+    document.getElementById('project-id').value = id;
 }
 
 function closeButton() {
